@@ -2,10 +2,13 @@ import SessionContext from "context/SessionContext";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import CartModal from "shared-components/modals/CartModal";
+import MobileModal from "shared-components/modals/MobileModal";
+import ModalWrapper from "shared-components/modals/ModalWrapper";
 const NavBar = () => {
   const { userName, signOut } = useContext(SessionContext);
   const [isLogoutMenuOpen, setIsLogoutMenuOpen] = useState(false);
   const [cartModalOpen, setCartModalOpen] = useState(false);
+  const [mobileModalOpen, setMobileModalOpen] = useState(false);
   return (
     <nav
       className="flex px-10 py-4 justify-center bg-emerald-800 font-lato h-[110px]"
@@ -21,35 +24,58 @@ const NavBar = () => {
             <div className="text-3xl"> Rica's Plants</div>
           </div>
         </Link>
-
-        <div className="relative flex flex-1 justify-end">
-          <button
-            onClick={() => {
-              setIsLogoutMenuOpen(!isLogoutMenuOpen);
-            }}
-            className="flex items-center text-xl text-emerald-200 mr-3"
-          >
-            <i className="fa-solid fa-user mr-2"></i>
-            <div>{userName}</div>
-          </button>
-          {isLogoutMenuOpen && (
-            <button onClick={signOut}>
-              <div className="absolute flex items-center top-9 right-0 px-2 py-4 bg-emerald-100 text-emerald-900 rounded-lg border border-emerald-900">
-                <i className="fa-solid fa-right-from-bracket"></i>
-                sign out
-              </div>
+        <div className="hidden sm:flex">
+          <div className="relative flex flex-1 justify-end">
+            <button
+              onClick={() => {
+                setIsLogoutMenuOpen(!isLogoutMenuOpen);
+              }}
+              className="flex items-center text-xl text-emerald-200 mr-3"
+            >
+              <i className="fa-solid fa-user mr-2"></i>
+              <div>{userName}</div>
             </button>
-          )}
+            {isLogoutMenuOpen && (
+              <button onClick={signOut}>
+                <div className="absolute flex items-center top-9 right-0 px-2 py-4 bg-emerald-100 text-emerald-900 rounded-lg border border-emerald-900">
+                  <i className="fa-solid fa-right-from-bracket"></i>
+                  sign out
+                </div>
+              </button>
+            )}
+          </div>
+          <button
+            className="p-0 flex items-baseline text-xl"
+            onClick={() => setCartModalOpen(true)}
+          >
+            <i className="fa-solid fa-cart-shopping ml-2 s:ml-10 mr-1 text-emerald-200"></i>
+            <div className="text-emerald-200">cart</div>
+          </button>
         </div>
         <button
-          className="p-0 flex items-baseline text-xl"
-          onClick={() => setCartModalOpen(true)}
+          className="sm:hidden"
+          onClick={() => setMobileModalOpen(true)}
         >
-          <i className="fa-solid fa-cart-shopping ml-2 s:ml-10 mr-1 text-emerald-200"></i>
-          <div className="text-emerald-200">cart</div>
+          <i className="fa-solid fa-bars text-4xl"></i>
         </button>
       </div>
-      {cartModalOpen && <CartModal onClose={() => setCartModalOpen(false)} />}
+      <ModalWrapper
+        isOpen={cartModalOpen}
+        onCloseClick={() => setCartModalOpen(false)}
+      >
+        <CartModal setCartOpen={setCartModalOpen} />
+      </ModalWrapper>
+      <ModalWrapper
+        isOpen={mobileModalOpen}
+        onCloseClick={() => setMobileModalOpen(false)}
+      >
+        <MobileModal
+          onCartOpenClick={() => {
+            setCartModalOpen(true);
+            setMobileModalOpen(false);
+          }}
+        />
+      </ModalWrapper>
     </nav>
   );
 };

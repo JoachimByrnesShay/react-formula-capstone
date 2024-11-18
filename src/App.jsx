@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
+import ScrollToTop from "shared-components/ScrollToTop";
 import SignInPage from "./pages/auth/SignInPage";
 import SignUpPage from "./pages/auth/SignUpPage";
 import PlantListPage from "./pages/PlantListPage";
@@ -40,6 +41,7 @@ function App() {
       }}
     >
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           <Route
             path="/"

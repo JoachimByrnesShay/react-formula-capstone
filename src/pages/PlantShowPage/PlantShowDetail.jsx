@@ -1,6 +1,9 @@
 import PlantHeading from "./PlantHeading";
 import BenefitsSection from "./BenefitsSection";
 import PlantPurchaseOptions from "./PlantPurchaseOptions";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
+
 import { useState } from "react";
 const PlantShowDetail = props => {
   const { id, name, price, description, images, care_instructions, botanical_name } = props.plant;
@@ -15,10 +18,12 @@ const PlantShowDetail = props => {
           </div>
           <div className="flex flex-1 md:px-10">
             {" "}
-            <img
-              src={images[selectedImage].src}
-              className="rounded-2xl"
-            />
+            <Zoom>
+              <img
+                src={images[selectedImage].src}
+                className="rounded-2xl"
+              />
+            </Zoom>
           </div>
 
           <div className="flex justify-center pt-8">
